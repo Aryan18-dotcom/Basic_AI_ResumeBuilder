@@ -1,14 +1,16 @@
 import json
-import tempfile
 import os
 from groq import Groq
 from reportlab.lib.pagesizes import letter
-from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
+from reportlab.lib.pagesizes import letter
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.lib.units import inch
+from reportlab.lib import colors
 from django.conf import settings
-from django.core.files.base import ContentFile
 
 API_KEY = "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"
+# 'API_KEY HAS BEEN REMOVED DUE TO GITHUB ERROR.!, GET OUR OWN API_KEY FROM THE Groqe'
 
 def ResumeGenerator(user_details, user_name):
     prompt = f"""
@@ -88,17 +90,6 @@ USER DETAILS:
     except Exception as e:
         raise Exception(f"LLM analysis error: {str(e)}")
 
-
-# utils.py (updated generate_resume_pdf)
-import json
-import tempfile
-import os
-from reportlab.lib.pagesizes import letter
-from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle
-from reportlab.lib.units import inch
-from reportlab.lib import colors
-from django.conf import settings
 
 def generate_resume_pdf(resume_data, user_name):
     styles = getSampleStyleSheet()
