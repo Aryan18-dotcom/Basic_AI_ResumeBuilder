@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block title %}Projects{% endblock %}
+{% block content %}
+<div class="max-w-3xl mx-auto py-12 px-4">
+    <form method="POST" action="{% url 'resume_section_projects' resume_id=resume_id %}" class="bg-dark-secondary rounded-xl p-8">
+        {% csrf_token %}
+        <h1 class="text-3xl font-bold text-center mb-8">Project Details</h1>
+
+        {% if messages %}
+        <div class="mb-6">
+            {% for message in messages %}
+            <div class="p-4 mb-2 rounded {% if message.tags %}bg-{{ message.tags }}{% else %}bg-blue-500{% endif %} text-white">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="mb-6">
+            <label for="project_title" class="block text-lg font-medium mb-2">Project Title<span class="text-red-500">*</span></label>
+            <input type="text" id="project_title"
+                   value="{{ project_data.project_title|default:'' }}"
+                   class="w-full bg-dark border border-gray/30 rounded-lg p-3 text-light focus:border-secondary focus:ring-secondary"
+                   name="project_title" placeholder="e.g., Talent Twister, Portfolio Website" required>
+        </div>
+
+        <div class="mb-6">
+            <label for="project_description" class="block text-lg font-medium mb-2">Project Description<span class="text-red-500">*</span></label>
+            <textarea id="project_description" rows="6"
+                      class="w-full bg-dark border border-gray/30 rounded-lg p-3 text-light focus:border-secondary focus:ring-secondary"
+                      name="project_description" placeholder="Briefly describe your project, technologies used, and outcomes" required>{{ project_data.project_description|default:'' }}</textarea>
+        </div>
+
+        <div class="flex justify-between items-center pt-4 border-t border-gray/20">
+            <a href="{% url 'resume_section_skills' resume_id=resume_id %}" class="text-gray hover:text-light transition-colors">← Back</a>
+            <button type="submit" class="bg-primary hover:bg-secondary text-light font-semibold py-3 px-8 rounded-full transition-all hover:-translate-y-1">
+                Preview Resume →
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %}Skills & Summary{% endblock %}
+{% block content %}
+<div class="max-w-3xl mx-auto py-12 px-4">
+    <form method="POST" action="{% url 'resume_section_skills' resume_id=resume_id %}" class="bg-dark-secondary rounded-xl p-8">
+        {% csrf_token %}
+        <h1 class="text-3xl font-bold text-center mb-8">Skills & Professional Summary</h1>
+
+        {% if messages %}
+        <div class="mb-6">
+            {% for message in messages %}
+            <div class="p-4 mb-2 rounded {% if message.tags %}bg-{{ message.tags }}{% else %}bg-blue-500{% endif %} text-white">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="mb-6">
+            <label for="skills" class="block text-lg font-medium mb-2">Your Skills<span class="text-red-500">*</span></label>
+            <input type="text" id="skills" 
+                   value="{{ skills_data.skills|default:'' }}"
+                   class="w-full bg-dark border border-gray/30 rounded-lg p-3 text-light focus:border-secondary focus:ring-secondary" 
+                   name="skills" placeholder="e.g., Python, JavaScript, Project Management" required>
+            <p class="text-sm text-gray-500 mt-2">Separate skills with commas</p>
+        </div>
+
+        <div class="mb-6">
+            <label for="your_background" class="block text-lg font-medium mb-2">Professional Summary</label>
+            <textarea id="your_background" rows="6"
+                      class="w-full bg-dark border border-gray/30 rounded-lg p-3 text-light focus:border-secondary focus:ring-secondary" 
+                      name="your_background" placeholder="Briefly describe your professional background and achievements">{{ skills_data.your_background|default:'' }}</textarea>
+        </div>
+
+        <div class="flex justify-between items-center pt-4 border-t border-gray/20">
+            <a href="{% url 'resume_section_experience' resume_id=resume_id %}" class="text-gray hover:text-light transition-colors">Back to Experience</a>
+            <button type="submit" class="bg-primary hover:bg-secondary text-light font-semibold py-3 px-8 rounded-full transition-all hover:-translate-y-1">
+                Generate Resume
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock %}

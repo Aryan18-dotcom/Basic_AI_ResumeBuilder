@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block title %}
+Generate Resume
+{% endblock %}
+{% block content %}
+<div class="max-w-3xl mx-auto py-12 px-4">
+<form id="resumeForm" method="POST" action="{% url 'resume_section_education' resume_id=resume_id  %}"
+        class="bg-dark-secondary rounded-xl p-8">
+        {% csrf_token %}
+        <h1 class="text-3xl font-bold text-center mb-8">Generate Your AI Resume</h1>
+
+        <div class="mb-6">
+            <label for="school" class="block text-lg font-medium mb-2">School Name<span class="text-red-500">*</span></label>
+            <input type="text" id="school"
+                class="w-full bg-dark border border-gray/30 rounded-lg p-3 text-light focus:border-secondary focus:ring-secondary" name="school" required>
+        </div>
+
+        <div class="mb-6">
+            <label for="school_year" class="block text-lg font-medium mb-2">Passing Year of school
+                <span class="text-red-500">*</span></label>
+            <input type="date" id="school_year"
+                class="w-full bg-dark border border-gray/30 rounded-lg p-3 text-light focus:border-secondary focus:ring-secondary" name="school_year" required>
+        </div>
+        <!-- 
+field_of_study
+graduation_date -->
+
+        <div class="mb-6">
+            <label for="collage" class="block text-lg font-medium mb-2">Collage Name
+                <span class="text-red-500">*</span></label>
+            <input type="text" id="collage"
+                class="w-full bg-dark border border-gray/30 rounded-lg p-3 text-light focus:border-secondary focus:ring-secondary" name="collage" required>
+        </div>
+
+        <div class="mb-6">
+            <label for="degree" class="block text-lg font-medium mb-2">Degree<span class="text-red-500">*</span></label>
+            <input type="text" id="degree"
+                class="w-full bg-dark border border-gray/30 rounded-lg p-3 text-light focus:border-secondary focus:ring-secondary" name="degree" required>
+        </div>
+        
+        <div class="mb-6">
+            <label for="field" class="block text-lg font-medium mb-2">Fieldd of Study <span class="text-red-500">*</span></label>
+            <input type="text" id="field"
+                class="w-full bg-dark border border-gray/30 rounded-lg p-3 text-light focus:border-secondary focus:ring-secondary" name="field" required>
+        </div>
+
+        <div class="mb-6">
+            <label for="graduation" class="block text-lg font-medium mb-2">Graduated Year (or the date will be) <span class="text-red-500">*</span></label>
+            <input type="date" id="graduation"
+                class="w-full bg-dark border border-gray/30 rounded-lg p-3 text-light focus:border-secondary focus:ring-secondary" placeholder="Ahemdabad" name="graduation" required>
+        </div>
+
+        <div class="flex justify-between items-center pt-4 border-t border-gray/20">
+            <a href="/" class="text-gray hover:text-light transition-colors">Back</a>
+            <button id="nextButton" type="submit"
+                class="bg-primary hover:bg-secondary text-light font-semibold py-3 px-8 rounded-full transition-all hover:-translate-y-1">
+                Next
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock %}

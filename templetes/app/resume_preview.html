@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block title %}Resume Preview{% endblock %}
+{% block content %}
+<div class="max-w-6xl mx-auto py-8 px-4">
+    <div class="flex justify-between items-center mb-8">
+        <h1 class="text-3xl font-bold">Your Resume Preview</h1>
+        <a href="{{ pdf_url }}" download 
+           class="bg-primary hover:bg-secondary text-white font-bold py-2 px-4 rounded">
+            ⬇️ Download PDF
+        </a>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <!-- PDF Preview -->
+        <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+            <div class="p-4 bg-gray-100 border-b">
+                <h2 class="text-xl font-semibold">Live PDF Preview</h2>
+            </div>
+            <div class="w-full h-[800px]">
+                <iframe src="{{ pdf_url }}" class="w-full h-full" frameborder="0"></iframe>
+            </div>
+        </div>
+
+        <!-- Resume JSON / Raw Preview -->
+        <div class="bg-gray-50 p-6 rounded-lg shadow">
+            <div class="mb-4">
+                <h2 class="text-xl font-semibold mb-2">Resume JSON (Raw)</h2>
+                <div class="bg-white text-black p-4 rounded overflow-auto max-h-[800px] text-sm border">
+                    <pre>{{ resume_data }}</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-8 flex justify-end">
+        <a href="{% url 'resume_section_skills' resume_id=resume.id %}" 
+           class="text-gray-600 hover:text-gray-900 mr-4">
+            ← Back to Edit
+        </a>
+        <a href="{% url 'home' %}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            Finish
+        </a>
+    </div>
+</div>
+{% endblock %}

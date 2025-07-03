@@ -1,0 +1,179 @@
+{% extends 'base.html' %}
+{% block title %}
+Generate Resume
+{% endblock %}
+{% block content %}
+<div class="max-w-3xl mx-auto py-12 px-4">
+
+    {% if show_form %}
+    <form id="resumeForm" method="POST" action="{% url 'GenerateResume' action='form' %}"
+        class="bg-dark-secondary rounded-xl p-8">
+        {% csrf_token %}
+        <h1 class="text-3xl font-bold text-center mb-8">Generate Your AI Resume</h1>
+
+        <div class="mb-6">
+            <label for="fullName" class="block text-lg font-medium mb-2">Full
+                Name <span class="text-red-500">*</span></label>
+            <input type="text" id="fullName"
+                class="w-full bg-dark border border-gray/30 rounded-lg p-3 text-light focus:border-secondary focus:ring-secondary"
+                value="{{ user.user_name }}" name="name" required>
+        </div>
+
+        <div class="mb-6">
+            <label for="email" class="block text-lg font-medium mb-2">Email
+                <span class="text-red-500">*</span></label>
+            <input type="email" id="email"
+                class="w-full bg-dark border border-gray/30 rounded-lg p-3 text-light focus:border-secondary focus:ring-secondary"
+                value="{{ user.email }}" name="email" required>
+        </div>
+
+        <div class="mb-6">
+            <label for="tel" class="block text-lg font-medium mb-2">Phone No
+                <span class="text-red-500">*</span></label>
+            <input type="tel" id="tel"
+                class="w-full bg-dark border border-gray/30 rounded-lg p-3 text-light focus:border-secondary focus:ring-secondary"
+                value="{{ user.phone_number }}" name="phone" required>
+        </div>
+
+        <div class="mb-6">
+            <label for="jobTitle" class="block text-lg font-medium mb-2">Desired
+                Job Title <span class="text-red-500">*</span></label>
+            <input type="text" id="jobTitle"
+                class="w-full bg-dark border border-gray/30 rounded-lg p-3 text-light focus:border-secondary focus:ring-secondary"
+                value="{{ user.job_title }}" name="job_title" required>
+        </div>
+
+        <div class="mb-6">
+            <label for="experience" class="block text-lg font-medium mb-2">Years
+                of Experience <span class="text-red-500">*</span></label>
+            <select id="experience"
+                class="w-full bg-dark border border-gray/30 rounded-lg p-3 text-light focus:border-secondary focus:ring-secondary"
+                name="experiance" required>
+                <option value="less than 1 year">Less than 1 year</option>
+                <option value="1-2 years">1-2 years</option>
+                <option value="3-5 years">3-5 years</option>
+                <option value="6-10 years">6-10 years</option>
+                <option value="10+ years">10+ years</option>
+            </select>
+        </div>
+
+        <div class="mb-6">
+            <label for="github" class="block text-lg font-medium mb-2">GitHub
+                Link (Optional)</label>
+            <input type="url" id="github"
+                class="w-full bg-dark border border-gray/30 rounded-lg p-3 text-light focus:border-secondary focus:ring-secondary"
+                name="github" placeholder="https://github.com/yourusername">
+        </div>
+
+        <div class="mb-6">
+            <label for="portfolio" class="block text-lg font-medium mb-2">Portfolio Link
+                (Optional)</label>
+            <input type="url" id="portfolio"
+                class="w-full bg-dark border border-gray/30 rounded-lg p-3 text-light focus:border-secondary focus:ring-secondary"
+                name="portfolio" placeholder="https://yourportfolio.com">
+        </div>
+
+        <div class="mb-8">
+            <label for="prompt" class="block text-lg font-medium mb-2">Additional
+                Information</label>
+            <textarea id="prompt" rows="4"
+                class="w-full bg-dark border border-gray/30 rounded-lg p-4 text-light focus:border-secondary focus:ring-secondary"
+                name="prompt"
+                placeholder="Example: '5 years as a software engineer specializing in Python and cloud technologies, looking for senior developer roles...'"></textarea>
+            <p class="text-sm text-gray mt-2">This helps us create a more
+                personalized resume</p>
+        </div>
+
+        <div class="flex justify-between items-center pt-4 border-t border-gray/20">
+            <a href="/" class="text-gray hover:text-light transition-colors">Back</a>
+            <button id="nextButton" type="submit"
+                class="bg-primary hover:bg-secondary text-light font-semibold py-3 px-8 rounded-full transition-all hover:-translate-y-1">
+                Next
+            </button>
+        </div>
+    </form>
+    {% else %}
+    <div class="bg-dark-secondary rounded-xl p-8">
+        <h1 class="text-3xl font-bold text-center mb-2">How do you want to
+            upload your resume?</h1>
+
+        <form action="{% url 'GenerateResume' action='upload' %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <!-- Drag and drop area -->
+            <div class="mt-8 mb-8 border-2 border-dashed border-gray/30 rounded-xl p-12 text-center cursor-pointer hover:border-primary transition-colors"
+                id="dropArea">
+                <svg class="w-12 h-12 mx-auto mb-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12">
+                    </path>
+                </svg>
+                <p class="text-lg font-medium mb-4">Drag and drop a file here</p>
+
+                <label for="fileUpload"
+                    class="inline-block bg-primary hover:bg-secondary text-light font-semibold py-3 px-6 rounded-full cursor-pointer transition-all">
+                    Browse
+                    <input type="file" id="fileUpload" class="hidden" name="fileUpload"
+                        accept=".doc,.docx,.pdf,.html,.rtf,.txt">
+                </label>
+            </div>
+
+            <p class="text-center text-gray mb-8">Files we can read: DOC, DOCX, PDF,
+                HTML, RTF, TXT</p>
+
+            <div class="flex justify-between items-center pt-4 border-t border-gray/20">
+                <a href="/" class="text-gray hover:text-light transition-colors">Back</a>
+                <button id="nextButton" type="submit"
+                    class="bg-primary hover:bg-secondary text-light font-semibold py-3 px-8 rounded-full transition-all hover:-translate-y-1">
+                    Next
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const dropArea = document.getElementById('dropArea');
+            const fileInput = document.getElementById('fileUpload');
+            const nextButton = document.getElementById('nextButton');
+
+            // Handle drag and drop
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                dropArea.addEventListener(eventName, preventDefaults, false);
+            });
+
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+
+            ['dragenter', 'dragover'].forEach(eventName => {
+                dropArea.addEventListener(eventName, highlight, false);
+            });
+
+            ['dragleave', 'drop'].forEach(eventName => {
+                dropArea.addEventListener(eventName, unhighlight, false);
+            });
+
+            function highlight() {
+                dropArea.classList.add('border-primary');
+                dropArea.classList.remove('border-gray/30');
+            }
+
+            function unhighlight() {
+                dropArea.classList.remove('border-primary');
+                dropArea.classList.add('border-gray/30');
+            }
+
+            dropArea.addEventListener('drop', handleDrop, false);
+
+            function handleDrop(e) {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+            }
+
+        });
+    </script>
+    {% endif %}
+
+</div>
+{% endblock %}

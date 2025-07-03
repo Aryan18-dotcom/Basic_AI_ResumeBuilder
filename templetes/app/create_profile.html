@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+{% block title %}
+Create Your Profile
+{% endblock %}
+
+{% block content %}
+<section class="bg-gradient-dark pt-24 py-20">
+    <div class="container mx-auto px-4 text-center">
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-gradient">
+            AI-Powered Resume Generation
+        </h1>
+        <p class="text-xl text-gray max-w-2xl mx-auto mb-10">
+            Our trained LLM creates perfect ATS-compatible resumes from your
+            simple prompt or automatically generates the latest optimized
+            format.
+        </p>
+    </div>
+    <div class="container mx-auto px-4">
+        <div class="max-w-2xl mx-auto text-center mb-12">
+            <h1 class="text-3xl md:text-4xl font-bold mb-4">Complete Your
+                Profile</h1>
+            <p class="text-lg text-gray-400">Fill in your details to start
+                creating AI-powered resumes</p>
+        </div>
+
+        <div class="max-w-5xl mx-auto bg-darker p-8 rounded-xl border border-gray/20 shadow-lg">
+            <form method="POST" action="{% url 'create_profile' %}" class="space-y-6">
+                {% csrf_token %}
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Name Field -->
+                <div>
+                    <label for="name" class="block text-lg font-medium mb-2">
+                        Full Name <span class="text-red-500">*</span>
+                    </label>
+                    <input type="text" id="name" name="name"
+                        class="w-full bg-dark border border-gray/30 rounded-lg p-3 text-light focus:ring-2 focus:ring-primary"
+                        required value="{{ request.POST.name|default:'' }}">
+                </div>
+
+                <!-- Email Field -->
+                <div>
+                    <label for="email" class="block text-lg font-medium mb-2">
+                        Email <span class="text-red-500">*</span>
+                    </label>
+                    <input type="email" id="email" name="email"
+                        class="w-full bg-dark border border-gray/30 rounded-lg p-3 text-light focus:ring-2 focus:ring-primary"
+                        required value="{{ request.POST.email|default:'' }}">
+                </div>
+
+                <!-- Job Title Field -->
+                <div>
+                    <label for="jobTitle" class="block text-lg font-medium mb-2">
+                        Desired Job Title <span class="text-red-500">*</span>
+                    </label>
+                    <input type="text" id="jobTitle" name="jobTitle"
+                        class="w-full bg-dark border border-gray/30 rounded-lg p-3 text-light focus:ring-2 focus:ring-primary"
+                        required value="{{ request.POST.jobTitle|default:'' }}"
+                        placeholder="e.g. Software Engineer, Marketing Manager">
+                </div>
+
+                <!-- Phone Field -->
+                <div>
+                    <label for="phone" class="block text-lg font-medium mb-2">
+                        Phone Number <span class="text-red-500">*</span>
+                    </label>
+                    <input type="tel" id="phone" name="phone"
+                        class="w-full bg-dark border border-gray/30 rounded-lg p-3 text-light focus:ring-2 focus:ring-primary"
+                        required value="{{ request.POST.phone|default:'' }}" placeholder="+91 7234173511">
+                </div>
+
+                <!-- Password Field -->
+                <div>
+                    <label for="password" class="block text-lg font-medium mb-2">
+                        Create Password <span class="text-red-500">*</span>
+                    </label>
+                    <input type="password" id="password" name="password"
+                        class="w-full bg-dark border border-gray/30 rounded-lg p-3 text-light focus:ring-2 focus:ring-primary"
+                        required placeholder="At least 8 characters">
+                    <p class="text-sm text-gray-400 mt-2">Password must be at
+                        least 8 characters long</p>
+                </div>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="flex justify-center">
+                    <button type="submit"
+                    class="w-1/2 bg-primary hover:bg-secondary text-light font-semibold py-4 rounded-full transition-all hover:-translate-y-1 hover:shadow-lg hover:shadow-primary/30">
+                    Complete Profile & Continue
+                </button>
+                </div>
+
+                {% if form.errors %}
+                <div class="mt-4 p-4 bg-red-900/30 border border-red-500 rounded-lg">
+                    <p class="text-red-400">Please correct the errors below:</p>
+                    <ul class="list-disc pl-5 mt-2">
+                        {% for field, errors in form.errors.items %}
+                        {% for error in errors %}
+                        <li>{{ error }}</li>
+                        {% endfor %}
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}

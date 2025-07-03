@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% block title %}
+Generate Resume
+{% endblock %}
+{% block content %}
+<div class="w-full mx-auto py-12 px-4">    
+    <div class="max-w-[70vw] bg-dark-secondary rounded-xl p-8 mb-8 border border-gray/20 m-auto">
+        <div class="text-center mb-6">
+            <h1 class="text-3xl font-extrabold">Are you uploading an existing resume?</h1>
+            <p class="text-base mt-2">Just review, edit, and update it with new information</p>
+        </div>
+        <div class="text-center mb-6">
+            <span class="inline-block bg-primary/10 text-primary font-semibold px-4 py-1 rounded-full text-sm mb-3">RECOMMENDED OPTION TO SAVE YOU TIME</span>
+        </div>
+
+        <form action="{% url 'select_resume' %}" method="post">
+            {% csrf_token %}
+            <div class="grid md:grid-cols-2 gap-6 mb-8">
+                <!-- Upload Option -->
+                <input type="radio" name="action" value="upload" id="uploadOption" class="hidden" checked>
+                <label for="uploadOption">
+                    <div id="uploadCard" class="p-6 bg-dark rounded-lg border-2 border-primary cursor-pointer transition-all h-full">
+                        <div class="flex flex-col h-full text-center">
+                            <!-- Upload Icon -->
+                            <div class="mb-4 flex justify-center">
+                                <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
+                                    <path d="M7 16C7 16 4 16 4 13C4 10 7 10 7 10C7 10 7 4 12 4C17 4 17 10 17 10C17 10 20 10 20 13C20 16 17 16 17 16" stroke="#8B5CF6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M12 10V16M12 16L10 14M12 16L14 14" stroke="#8B5CF6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                            <h2 class="text-xl font-bold mb-2">Yes, upload my resume</h2>
+                            <p class="text-gray flex-grow">We'll give you expert guidance to fill out your info and enhance your resume, from start to finish</p>
+                        </div>
+                    </div>
+                </label>
+
+                <!-- Scratch Option -->
+                <input type="radio" name="action" value="form" id="scratchOption" class="hidden">
+                <label for="scratchOption">
+                    <div id="scratchCard" class="p-6 bg-dark rounded-lg border-2 border-gray/30 cursor-pointer transition-all h-full text-center">
+                        <div class="flex flex-col h-full">
+                            <div class="mb-4 flex justify-center">
+                                <svg width="48" height="48" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="10" y="6" width="28" height="36" rx="2" stroke="#8B5CF6" stroke-width="2" fill="#1E1E2D"/>
+                                    <path d="M16 30L29.5 16.5C30.3 15.7 31.7 15.7 32.5 16.5C33.3 17.3 33.3 18.7 32.5 19.5L19 33H14V28L16 30Z" fill="#8B5CF6"/>
+                                    <path d="M29.5 16.5L32.5 19.5" stroke="#1E1E2D" stroke-width="2" stroke-linecap="round"/>
+                                    <path d="M14 18H34M14 22H34M14 26H28M14 30H28M14 34H28" stroke="#8B5CF6" stroke-width="1.5" stroke-linecap="round"/>
+                                </svg>
+                            </div>
+                            <h2 class="text-xl font-bold mb-2">No, start from scratch</h2>
+                            <p class="text-gray flex-grow">We'll guide you through the whole process so your skills can shine</p>
+                        </div>
+                    </div>
+                </label>
+            </div>
+
+            <div class="flex justify-between items-center pt-4 border-t border-gray/20">
+                <a href="/" class="text-gray hover:text-light transition-colors">Back</a>
+                <button type="submit" class="bg-primary hover:bg-secondary text-light font-semibold py-3 px-8 rounded-full transition-all hover:-translate-y-1">
+                    Next
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const uploadCard = document.getElementById('uploadCard');
+    const scratchCard = document.getElementById('scratchCard');
+    const uploadOption = document.getElementById('uploadOption');
+    const scratchOption = document.getElementById('scratchOption');
+
+    uploadCard.addEventListener('click', function () {
+        uploadOption.checked = true;
+        uploadCard.classList.add('border-primary');
+        scratchCard.classList.remove('border-primary');
+        scratchCard.classList.add('border-gray/30');
+    });
+
+    scratchCard.addEventListener('click', function () {
+        scratchOption.checked = true;
+        scratchCard.classList.add('border-primary');
+        uploadCard.classList.remove('border-primary');
+        uploadCard.classList.add('border-gray/30');
+    });
+});
+</script>
+{% endblock %}

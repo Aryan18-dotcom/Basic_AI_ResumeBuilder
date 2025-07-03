@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% block title %}Work Experience{% endblock %}
+{% block content %}
+<div class="max-w-3xl mx-auto py-12 px-4">
+    <form method="POST" action="{% url 'resume_section_experience' resume_id=resume_id %}" class="bg-dark-secondary rounded-xl p-8">
+        {% csrf_token %}
+        <h1 class="text-3xl font-bold text-center mb-8">Work Experience</h1>
+
+        {% if messages %}
+        <div class="mb-6">
+            {% for message in messages %}
+            <div class="p-4 mb-2 rounded {% if message.tags %}bg-{{ message.tags }}{% else %}bg-blue-500{% endif %} text-white">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="mb-6">
+            <label for="work_company_name" class="block text-lg font-medium mb-2">Company Name<span class="text-red-500">*</span></label>
+            <input type="text" id="work_company_name" 
+                   value="{{ experience_data.work_company_name|default:'' }}"
+                   class="w-full bg-dark border border-gray/30 rounded-lg p-3 text-light focus:border-secondary focus:ring-secondary" 
+                   name="work_company_name" required>
+        </div>
+
+        <div class="mb-6">
+            <label for="work_background_titel" class="block text-lg font-medium mb-2">Job Title<span class="text-red-500">*</span></label>
+            <input type="text" id="work_background_titel" 
+                   value="{{ experience_data.work_background_titel|default:'' }}"
+                   class="w-full bg-dark border border-gray/30 rounded-lg p-3 text-light focus:border-secondary focus:ring-secondary" 
+                   name="work_background_titel" required>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <div>
+                <label for="work_start_date" class="block text-lg font-medium mb-2">Start Date<span class="text-red-500">*</span></label>
+                <input type="date" id="work_start_date" 
+                       value="{{ experience_data.work_start_date|default:'' }}"
+                       class="w-full bg-dark border border-gray/30 rounded-lg p-3 text-light focus:border-secondary focus:ring-secondary" 
+                       name="work_start_date" required>
+            </div>
+            <div>
+                <label for="work_end_date" class="block text-lg font-medium mb-2">End Date</label>
+                <input type="date" id="work_end_date" 
+                       value="{{ experience_data.work_end_date|default:'' }}"
+                       class="w-full bg-dark border border-gray/30 rounded-lg p-3 text-light focus:border-secondary focus:ring-secondary" 
+                       name="work_end_date">
+            </div>
+        </div>
+
+        <div class="mb-6">
+            <label for="work_job_description" class="block text-lg font-medium mb-2">Job Description</label>
+            <textarea id="work_job_description" rows="4"
+                      class="w-full bg-dark border border-gray/30 rounded-lg p-3 text-light focus:border-secondary focus:ring-secondary" 
+                      name="work_job_description">{{ experience_data.work_job_description|default:'' }}</textarea>
+        </div>
+
+        <div class="mb-6 flex items-center">
+            <input type="checkbox" id="is_working_here" name="is_working_here" 
+                   class="mr-2 h-5 w-5 rounded border-gray/30 bg-dark text-primary focus:ring-secondary"
+                   {% if experience_data.is_working_here %}checked{% endif %}>
+            <label for="is_working_here" class="text-lg">I currently work here</label>
+        </div>
+
+        <div class="flex justify-between items-center pt-4 border-t border-gray/20">
+            <a href="{% url 'resume_section_education' resume_id=resume_id %}" class="text-gray hover:text-light transition-colors">Back to Education</a>
+            <button type="submit" class="bg-primary hover:bg-secondary text-light font-semibold py-3 px-8 rounded-full transition-all hover:-translate-y-1">
+                Save & Continue to Skills
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock %}
